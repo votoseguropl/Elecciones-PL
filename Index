@@ -1,0 +1,132 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro y Contabilización de Votos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .resumen {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registro y Contabilización de Votos</h1>
+        <label for="nombre">Nombre del Votante (ID):</label>
+        <input type="text" id="nombre" placeholder="Ingrese el ID del votante">
+
+        <button onclick="registrarVoto()">Registrar Voto</button>
+
+        <h2>Votos Registrados</h2>
+        <table id="tabla-votos">
+            <thead>
+                <tr>
+                    <th>ID del Votante</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los votos registrados aparecerán aquí -->
+            </tbody>
+        </table>
+
+        <div class="resumen">
+            <h2>Resumen de Votos</h2>
+            <div>Total de Votos: <span id="contador-votos">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        const votantesRegistrados = new Set();
+        const listaVotantesPermitidos = new Set(["4591", "4592", "4593", "4594", "4595", "4596", "4597", "4598", "4599"]);
+        let totalVotos = 0;
+
+        function registrarVoto() {
+            const nombre = document.getElementById('nombre').value.trim();
+
+            if (!nombre) {
+                alert('Por favor, ingrese el ID del votante.');
+                return;
+            }
+
+            if (!listaVotantesPermitidos.has(nombre)) {
+                alert('El ID del votante no está en la lista permitida.');
+                return;
+            }
+
+            if (votantesRegistrados.has(nombre)) {
+                alert('Este votante ya ha registrado su voto.');
+                return;
+            }
+
+            // Registrar al votante
+            votantesRegistrados.add(nombre);
+
+            // Actualizar contador
+            totalVotos++;
+            document.getElementById('contador-votos').textContent = totalVotos;
+
+            const tablaBody = document.querySelector('#tabla-votos tbody');
+
+            // Crear nueva fila
+            const fila = document.createElement('tr');
+
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = nombre;
+            fila.appendChild(celdaNombre);
+
+            tablaBody.appendChild(fila);
+
+            // Limpiar campos
+            document.getElementById('nombre').value = '';
+        }
+    </script>
+</body>
+</html>
+```
